@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.2)
+enable_language(CXX)
+add_definitions(-std=c++14)
+include_directories(include)
+file(GLOB arralg_header_files "include/*.hpp")
+project(arralg)
+add_executable(test_arralg tests/main.cpp ${arralg_header_files})
