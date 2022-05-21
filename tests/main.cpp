@@ -75,6 +75,12 @@ int main() {
         boxBlur1d(input.data(), output.data(), input.size(), 1, 2.0);
         assert_equal(output, Vec{2.0, 1.0, 1.0, 2.0});
     }
+    {
+        const auto input = Vec{1.0, 2.0, 3.0, 4.0, 5.0};
+        auto output = zeros(input);
+        boxBlur1d(input.data(), output.data(), input.size(), 1, 0.0);
+        assert_equal(output, Vec{0.0, 2.0, 3.0, 4.0, 0.0});
+    }
     std::cout << "Testing done.";
     return 0;
 }
