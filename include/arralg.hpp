@@ -32,22 +32,21 @@ void boxBlur1d(const T* data_in, T* data_out, size_t size, size_t radius, T bord
     }
     auto sum_back = T{};
     auto sum_front = T{};
-    for (size_t center = 0; center < radius; ++center) {
-        data_out[center] = border_value;
+    size_t back = 0;
+    size_t center = 0;
+    size_t front = 0;
+    while (center < radius) {
+        data_out[center++] = border_value;
     }
-    for (size_t front = 0; front < diameter - 1; ++front) {
-        sum_front += data_in[front];
+    while (front < diameter - 1) {
+        sum_front += data_in[front++];
     }
-    for (
-        size_t front = diameter - 1, back = 0, center = radius;
-        front < size;
-        ++front, ++back, ++center
-    ) {
-        sum_front += data_in[front];
-        data_out[center] = (sum_front - sum_back) / diameter;
-        sum_back += data_in[back];
+    while (front < size) {
+        sum_front += data_in[front++];
+        data_out[center++] = (sum_front - sum_back) / diameter;
+        sum_back += data_in[back++];
     }
-    for (size_t center = size - radius; center < size; ++center) {
-        data_out[center] = border_value;
+    while (center < size) {
+        data_out[center++] = border_value;
     }
 }
