@@ -15,11 +15,15 @@ T min(T a, T b) {
     return a < b ? a : b;
 }
 
+size_t getDiameter(size_t radius) {
+    return 2 * radius + 1;
+}
+
 template<typename T>
 void boxBlur1d(
     const T* data_in, T* data_out, size_t size, size_t radius, T border_value
 ) {
-    size_t diameter = 2 * radius + 1;
+    const size_t diameter = getDiameter(radius);
     if (size < diameter) {
         return;
     }
@@ -72,7 +76,7 @@ template<typename T, typename S>
 void dilate1d(
     const T* data_in, S* data_out, size_t size, size_t radius
 ) {
-    size_t diameter = 2 * radius + 1;
+    const size_t diameter = getDiameter(radius);
     if (size < diameter) {
         return;
     }
@@ -101,7 +105,7 @@ template<typename T, typename S>
 void erode1d(
     const T* data_in, S* data_out, size_t size, size_t radius
 ) {
-    size_t diameter = 2 * radius + 1;
+    const size_t diameter = getDiameter(radius);
     if (size < diameter) {
         return;
     }
