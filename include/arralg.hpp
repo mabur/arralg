@@ -52,6 +52,9 @@ template<typename T, typename S>
 void distanceTransform1d(
     const T* data_in, S* data_out, size_t size, T query_value, S max_value
 ) {
+    for (size_t x = 0; x < size; ++x) {
+        data_out[x] = max_value;
+    }
     // Left pass:
     auto distance = max_value;
     for (size_t x = 0; x < size; ++x) {
@@ -59,7 +62,7 @@ void distanceTransform1d(
             data_in[x] == query_value ?
                 0 : distance == max_value ?
                     distance : distance + 1;
-        data_out[x] = distance;
+        data_out[x] = getMin(data_out[x], distance);
     }
     // Right pass:
     distance = max_value;
