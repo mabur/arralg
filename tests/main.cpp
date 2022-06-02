@@ -154,6 +154,24 @@ int main() {
         dilate1d(begin(input), begin(output), input.size(), 1);
         assert_equal(output, Vecb{true, true, true});
     }
+    {
+        const auto input = Vecb{false, false, false};
+        auto output = falses(input);
+        dilate1d(begin(input), begin(output), input.size(), 1);
+        assert_equal(output, Vecb{false, false, false});
+    }
+    {
+        const auto input = Vecb{true, false, false};
+        auto output = falses(input);
+        dilate1d(begin(input), begin(output), input.size(), 1);
+        assert_equal(output, Vecb{true, true, false});
+    }
+    {
+        const auto input = Vecb{true, false, false, false, true, true, false, false};
+        auto output = falses(input);
+        dilate1d(begin(input), begin(output), input.size(), 1);
+        assert_equal(output, Vecb{true, true, false, true, true, true, true, false});
+    }
     cout << "Testing dilate1d done." << endl << endl;
     return 0;
 }
