@@ -1,28 +1,14 @@
 // Start implementing array algorithms for 1d arrays.
 // Then generalize to 2d & 3d & nd.
 // Do we need to handle non-contiguous arrays?
+// Investigate dlib.
 //
 // Algorithms:
 // * Box-blur
+// * Distance transform
+// * Morphological operations
 // * Derivative filter
 // * Sliding window min/max
-// * Morphological operations
-// * Distance transform
-
-// Investigate dlib
-
-
-// ooXXXXXXoo
-// oXo
-
-/*
- Input:
- r = 1
- [0 3 0]
-
- diameter = 2 * 1 + 1 = 3
-
-*/
 
 template<typename T>
 T min(T a, T b) {
