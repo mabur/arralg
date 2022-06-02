@@ -89,6 +89,24 @@ int main() {
         distanceTransform1d(input.data(), output.data(), input.size(), 1.0);
         assert_equal(output, Vec{0.0});
     }
+    {
+        const auto input = Vec{1.0, 0.0, 0.0};
+        auto output = zeros(input);
+        distanceTransform1d(input.data(), output.data(), input.size(), 1.0);
+        assert_equal(output, Vec{0.0, 1.0, 2.0});
+    }
+    {
+        const auto input = Vec{0.0, 0.0, 1.0};
+        auto output = zeros(input);
+        distanceTransform1d(input.data(), output.data(), input.size(), 1.0);
+        assert_equal(output, Vec{2.0, 1.0, 0.0});
+    }
+    {
+        const auto input = Vec{7, 3, 8, 9, 4, 3, 6, 8, 4, 2, 4, 5};
+        auto output = zeros(input);
+        distanceTransform1d(input.data(), output.data(), input.size(), 8.0);
+        assert_equal(output, Vec{2, 1, 0, 1, 2, 2, 1, 0, 1, 2, 3, 4});
+    }
     cout << "Testing distanceTransform1d done." << endl;
     return 0;
 }
