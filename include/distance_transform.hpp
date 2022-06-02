@@ -8,8 +8,7 @@ void fill(T* data_out, int size, T value) {
 }
 
 template<typename T, typename S>
-S updateDistance(S distance, T data_in, S data_out, T query_value, S max_value)
-{
+S updateDistance(S distance, T data_in, S data_out, T query_value, S max_value) {
     if (data_in == query_value) return S{0};
     if (data_out <= distance) return data_out;
     if (distance < max_value) return distance + S{1};
