@@ -11,7 +11,7 @@
 // * Sliding window min/max
 
 template<typename T>
-T min(T a, T b) {
+T getMin(T a, T b) {
     return a < b ? a : b;
 }
 
@@ -68,7 +68,7 @@ void distanceTransform1d(
             data_in[size - 1 - x] == query_value ?
                 0 : distance == max_value ?
                     distance : distance + 1;
-        data_out[size - 1 - x] = min(data_out[size - 1 - x], distance);
+        data_out[size - 1 - x] = getMin(data_out[size - 1 - x], distance);
     }
 }
 
