@@ -1,10 +1,8 @@
 #pragma once
 
-#include <cstddef>
-
 template<typename T>
-void fill(T* data_out, size_t size, T value) {
-    for (size_t x = 0; x < size; ++x) {
+void fill(T* data_out, int size, T value) {
+    for (int x = 0; x < size; ++x) {
         data_out[x] = value;
     }
 }
@@ -33,7 +31,7 @@ void distanceTransformPass1d(
 
 template<typename T, typename S>
 void distanceTransform1d(
-    const T* data_in, S* data_out, size_t size, T query_value, S max_value
+    const T* data_in, S* data_out, int size, T query_value, S max_value
 ) {
     fill(data_out, size, max_value);
     distanceTransformPass1d(data_in, data_out, size, +1, query_value, max_value);
