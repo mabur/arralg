@@ -82,8 +82,9 @@ void distanceTransform1d(
     }
 }
 
+template<typename T, typename S>
 void dilate1d(
-    const bool* data_in, bool* data_out, size_t size, size_t radius
+    const T* data_in, S* data_out, size_t size, size_t radius
 ) {
     size_t diameter = 2 * radius + 1;
     if (size < diameter) {

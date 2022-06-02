@@ -172,6 +172,12 @@ int main() {
         dilate1d(begin(input), begin(output), input.size(), 1);
         assert_equal(output, Vecb{true, true, false, true, true, true, true, false});
     }
+    {
+        const auto input = Vec{1, 0, 0, 1, 0, 0, 0, 1, 1, 0};
+        auto output = zeros(input);
+        dilate1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{1, 1, 1, 1, 1, 0, 1, 1, 1, 1});
+    }
     cout << "Testing dilate1d done." << endl << endl;
     return 0;
 }
