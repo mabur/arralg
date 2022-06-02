@@ -20,6 +20,13 @@ size_t getDiameter(size_t radius) {
 }
 
 template<typename T>
+void fill(T* data_out, size_t size, T value) {
+    for (size_t x = 0; x < size; ++x) {
+        data_out[x] = value;
+    }
+}
+
+template<typename T>
 void boxBlur1d(
     const T* data_in, T* data_out, size_t size, size_t radius, T border_value
 ) {
@@ -68,12 +75,8 @@ template<typename T, typename S>
 void distanceTransform1d(
     const T* data_in, S* data_out, size_t size, T query_value, S max_value
 ) {
-    for (size_t x = 0; x < size; ++x) {
-        data_out[x] = max_value;
-    }
-    // Left pass:
+    fill(data_out,size, max_value);
     distanceTransformPass1d(data_in, data_out, size, +1, query_value, max_value);
-    // Right pass:
     distanceTransformPass1d(data_in + size - 1, data_out + size - 1, size, -1, query_value, max_value);
 }
 
