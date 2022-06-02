@@ -60,18 +60,24 @@ void boxBlur1d(
 
 template<typename T, typename S>
 void distanceTransform1d(
-    const T* data_in, S* data_out, size_t size, T query_value
+    const T* data_in, S* data_out, size_t size, T query_value, S max_value
 ) {
     // Left pass:
-    auto distance = static_cast<S>(size);
+    auto distance = max_value;
     for (size_t x = 0; x < size; ++x) {
-        distance = data_in[x] == query_value ? 0 : distance + 1;
+        distance =
+            data_in[x] == query_value ?
+                0 : distance == max_value ?
+                    distance : distance + 1;
         data_out[x] = distance;
     }
     // Right pass:
-    distance = size;
+    distance = max_value;
     for (size_t x = 0; x < size; ++x) {
-        distance = data_in[size - 1 - x] == query_value ? 0 : distance + 1;
+        distance =
+            data_in[size - 1 - x] == query_value ?
+                0 : distance == max_value ?
+                    distance : distance + 1;
         data_out[size - 1 - x] = min(data_out[size - 1 - x], distance);
     }
 }
