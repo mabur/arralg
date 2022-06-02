@@ -179,5 +179,43 @@ int main() {
         assert_equal(output, Vec{1, 1, 1, 1, 1, 0, 1, 1, 1, 1});
     }
     cout << "Testing dilate1d done." << endl << endl;
+    cout << "Testing erode1d done." << endl;
+    {
+        const auto input = Vec{0, 0, 0};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0, 0, 0});
+    }
+    {
+        const auto input = Vec{0, 1, 0};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0, 0, 0});
+    }
+    {
+        const auto input = Vec{0, 0, 1};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0, 0, 0});
+    }
+    {
+        const auto input = Vec{1, 0, 0};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0, 0, 0});
+    }
+    {
+        const auto input = Vec{0, 1, 1, 1, 0};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0, 0, 1, 0, 0});
+    }
+    {
+        const auto input = Vec{1,0,0,1,1,1,0,1,0,1,1,0,0,1,1};
+        auto output = zeros(input);
+        erode1d(input.data(), output.data(), input.size(), 1);
+        assert_equal(output, Vec{0,0,0,0,1,0,0,0,0,0,0,0,0,0,1});
+    }
+    cout << "Testing erode1d done." << endl << endl;
     return 0;
 }
