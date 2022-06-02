@@ -81,3 +81,31 @@ void distanceTransform1d(
         data_out[size - 1 - x] = min(data_out[size - 1 - x], distance);
     }
 }
+
+void dilate1d(
+    const bool* data_in, bool* data_out, size_t size, size_t radius
+) {
+    size_t diameter = 2 * radius + 1;
+    if (size < diameter) {
+        return;
+    }
+    const auto max_value = size;
+    // Left pass:
+    auto distance = max_value;
+    for (size_t x = 0; x < size; ++x) {
+        distance =
+            data_in[x] ?
+            0 : distance == max_value ?
+                distance : distance + 1;
+        data_out[x] = distance <= radius;
+    }
+    // Right pass:
+    distance = max_value;
+    for (size_t x = 0; x < size; ++x) {
+        distance =
+            data_in[size - 1 - x] ?
+            0 : distance == max_value ?
+                distance : distance + 1;
+        data_out[size - 1 - x] = data_out[size - 1 - x] || distance <= radius;
+    }
+}

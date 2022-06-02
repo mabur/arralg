@@ -1,8 +1,23 @@
 #include <cassert>
 #include <iostream>
+#include <valarray>
 #include <vector>
 
 #include "arralg.hpp"
+
+template<typename Container>
+void printContainerDifference(const Container& left, const Container& right)
+{
+    using namespace std;
+    for (const auto x : left) {
+        cout << x << " ";
+    }
+    cout << "!= ";
+    for (const auto x : right) {
+        cout << x << " ";
+    }
+    cout << endl;
+}
 
 template<typename T>
 void assert_equal(const T& left, const T& right)
@@ -14,15 +29,22 @@ template<typename T>
 void assert_equal(const std::vector<T>& left, const std::vector<T>& right)
 {
     if (left != right) {
-        using namespace std;
-        for (const auto x : left) {
-            cout << x << " ";
+        printContainerDifference(left, right);
+    }
+}
+
+template<typename T>
+void assert_equal(const std::valarray<T>& left, const std::valarray<T>& right)
+{
+    if (left.size() != right.size()) {
+        printContainerDifference(left, right);
+        return;
+    }
+    for (size_t i = 0; i < left.size(); ++i) {
+        if (left[i] != right[i]) {
+            printContainerDifference(left, right);
+            return;
         }
-        cout << "!= ";
-        for (const auto x : right) {
-            cout << x << " ";
-        }
-        cout << endl;
     }
 }
 
@@ -36,9 +58,14 @@ void assert_equal(int left, int right)
 }
 
 using Vec = std::vector<double>;
+using Vecb = std::valarray<bool>;
 
 Vec zeros(const Vec& v) {
     return Vec(v.size(), 0.0);
+}
+
+Vecb falses(const Vecb& v) {
+    return Vecb(false, v.size());
 }
 
 int main() {
@@ -81,7 +108,7 @@ int main() {
         boxBlur1d(input.data(), output.data(), input.size(), 1, 0.0);
         assert_equal(output, Vec{0.0, 2.0, 3.0, 4.0, 0.0});
     }
-    cout << "Testing boxBlur1d done." << endl;
+    cout << "Testing boxBlur1d done." << endl << endl;
     cout << "Begin testing distanceTransform1d..." << endl;
     {
         const auto input = Vec{1.0};
@@ -119,6 +146,14 @@ int main() {
         distanceTransform1d(input.data(), output.data(), input.size(), 8.0, 2.0);
         assert_equal(output, Vec{2, 2, 1, 0, 1, 2, 2, 2, 1, 0, 1, 2, 2, 2});
     }
-    cout << "Testing distanceTransform1d done." << endl;
+    cout << "Testing distanceTransform1d done." << endl << endl;
+    cout << "Begin testing dilate1d..." << endl;
+    {
+        const auto input = Vecb{false, true, false};
+        auto output = falses(input);
+        dilate1d(begin(input), begin(output), input.size(), 1);
+        assert_equal(output, Vecb{true, true, true});
+    }
+    cout << "Testing dilate1d done." << endl << endl;
     return 0;
 }
