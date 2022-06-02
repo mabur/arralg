@@ -10,11 +10,6 @@
 // * Derivative filter
 // * Sliding window min/max
 
-template<typename T>
-T getMin(T a, T b) {
-    return a < b ? a : b;
-}
-
 size_t getDiameter(size_t radius) {
     return 2 * radius + 1;
 }
@@ -56,16 +51,21 @@ void boxBlur1d(
 }
 
 template<typename T, typename S>
+S updateDistance(S distance, T data_in, S data_out, T query_value, S max_value)
+{
+    if (data_in == query_value) return S{0};
+    if (data_out < distance) return data_out;
+    if (distance < max_value) return distance + S{1};
+    return max_value;
+}
+
+template<typename T, typename S>
 void distanceTransformPass1d(
     const T* data_in, S* data_out, int num_steps, int step, T query_value, S max_value
 ) {
     auto distance = max_value;
     for (int s = 0; s < num_steps; ++s) {
-        distance =
-            *data_in == query_value ?
-            S{0} : distance == max_value ?
-                distance : distance + S{1};
-        distance = getMin(*data_out, distance);
+        distance = updateDistance(distance, *data_in, *data_out, query_value, max_value);
         *data_out = distance;
         data_in += step;
         data_out += step;
