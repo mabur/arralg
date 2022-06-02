@@ -19,6 +19,25 @@ void printContainerDifference(const Container& left, const Container& right)
     cout << endl;
 }
 
+template<typename Container>
+void printContainerDifference(const Container& left, const Container& right, int width, int height)
+{
+    using namespace std;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            cout << left[x + y * width] << " ";
+        }
+        cout << endl;
+    }
+    cout << "!= " << endl;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            cout << right[x + y * width] << " ";
+        }
+        cout << endl;
+    }
+}
+
 template<typename T>
 void assert_equal(const T& left, const T& right)
 {
@@ -30,6 +49,14 @@ void assert_equal(const std::vector<T>& left, const std::vector<T>& right)
 {
     if (left != right) {
         printContainerDifference(left, right);
+    }
+}
+
+template<typename T>
+void assert_equal(const std::vector<T>& left, const std::vector<T>& right, int width, int height)
+{
+    if (left != right) {
+        printContainerDifference(left, right, width, height);
     }
 }
 
@@ -217,5 +244,22 @@ int main() {
         assert_equal(output, Vec{0,0,0,0,1,0,0,0,0,0,0,0,0,0,1});
     }
     cout << "Testing erode1d done." << endl << endl;
+    cout << "Testing distanceTransform2d done." << endl << endl;
+    {
+        const auto input = Vec{
+            0,0,0,
+            0,1,0,
+            0,0,0,
+        };
+        const auto expected_input = Vec{
+            2,1,2,
+            1,0,1,
+            2,1,2,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 3, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 3, 3);
+    }
+    cout << "Testing distanceTransform2d done." << endl << endl;
     return 0;
 }
