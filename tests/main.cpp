@@ -44,7 +44,7 @@ Vec zeros(const Vec& v) {
 int main() {
     using std::cout;
     using std::endl;
-    cout << "Begin testing..." << endl;
+    cout << "Begin testing boxBlur1d..." << endl;
     {
         const auto input = Vec{};
         auto output = zeros(input);
@@ -81,6 +81,14 @@ int main() {
         boxBlur1d(input.data(), output.data(), input.size(), 1, 0.0);
         assert_equal(output, Vec{0.0, 2.0, 3.0, 4.0, 0.0});
     }
-    std::cout << "Testing done.";
+    cout << "Testing boxBlur1d done." << endl;
+    cout << "Begin testing distanceTransform1d..." << endl;
+    {
+        const auto input = Vec{1.0};
+        auto output = zeros(input);
+        distanceTransform1d(input.data(), output.data(), input.size(), 1.0);
+        assert_equal(output, Vec{0.0});
+    }
+    cout << "Testing distanceTransform1d done." << endl;
     return 0;
 }

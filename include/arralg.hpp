@@ -25,7 +25,14 @@
 */
 
 template<typename T>
-void boxBlur1d(const T* data_in, T* data_out, size_t size, size_t radius, T border_value) {
+T min(T a, T b) {
+    return a < b ? a : b;
+}
+
+template<typename T>
+void boxBlur1d(
+    const T* data_in, T* data_out, size_t size, size_t radius, T border_value
+) {
     size_t diameter = 2 * radius + 1;
     if (size < diameter) {
         return;
@@ -48,5 +55,23 @@ void boxBlur1d(const T* data_in, T* data_out, size_t size, size_t radius, T bord
     }
     while (center < size) {
         data_out[center++] = border_value;
+    }
+}
+
+template<typename T, typename S>
+void distanceTransform1d(
+    const T* data_in, S* data_out, size_t size, T query_value
+) {
+    // Left pass:
+    auto distance = static_cast<S>(size);
+    for (size_t x = 0; x < size; ++x) {
+        distance = data_in[x] == query_value ? 0 : distance + 1;
+        data_out[x] = distance;
+    }
+    // Right pass:
+    distance = size;
+    for (size_t x = 0; x < size; ++x) {
+        distance = data_in[size - 1 - x] == query_value ? 0 : distance + 1;
+        data_out[size - 1 - x] = min(data_out[size - 1 - x], distance);
     }
 }
