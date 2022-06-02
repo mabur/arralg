@@ -260,6 +260,81 @@ int main() {
         distanceTransform2d(input.data(), output.data(), 3, 3, 1.0, 100.0);
         assert_equal(output, expected_input, 3, 3);
     }
+    {
+        const auto input = Vec{
+            1,
+            0,
+            0,
+        };
+        const auto expected_input = Vec{
+            0,
+            1,
+            2,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 1, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 1, 3);
+    }
+    {
+        const auto input = Vec{
+            0,
+            0,
+            1,
+        };
+        const auto expected_input = Vec{
+            2,
+            1,
+            0,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 1, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 1, 3);
+    }
+    {
+        const auto input = Vec{
+            0,0,0,
+            0,0,0,
+            0,0,1,
+        };
+        const auto expected_input = Vec{
+            4,3,2,
+            3,2,1,
+            2,1,0,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 3, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 3, 3);
+    }
+    {
+        const auto input = Vec{
+            0,0,0,
+            0,0,0,
+            1,0,1,
+        };
+        const auto expected_input = Vec{
+            2,3,2,
+            1,2,1,
+            0,1,0,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 3, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 3, 3);
+    }
+    {
+        const auto input = Vec{
+            0,0,0,1,
+            0,0,0,0,
+            1,0,0,0,
+        };
+        const auto expected_input = Vec{
+            2,2,1,0,
+            1,2,2,1,
+            0,1,2,2,
+        };
+        auto output = zeros(input);
+        distanceTransform2d(input.data(), output.data(), 4, 3, 1.0, 100.0);
+        assert_equal(output, expected_input, 4, 3);
+    }
     cout << "Testing distanceTransform2d done." << endl << endl;
     return 0;
 }
