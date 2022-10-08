@@ -55,6 +55,27 @@ void boxBlur1d(
     }
 }
 
+
+template<typename T>
+void boxBlur2d(
+    const T* data_in,
+    T* data_buffer,
+    T* data_out,
+    size_t width,
+    size_t height,
+    size_t radius,
+    T border_value
+) {
+    for (size_t y = 0, offset = 0; y < height; ++y, offset += width) {
+        boxBlur1d(data_in + offset, data_buffer + offset, width, radius, border_value);
+    }
+    transpose2d(data_buffer, data_out, width, height);
+    for (size_t x = 0, offset = 0; x < width; ++x, offset += height) {
+        boxBlur1d(data_out + offset, data_buffer + offset, height, radius, border_value);
+    }
+    transpose2d(data_buffer, data_out, height, width);
+}
+
 template<typename T, typename S>
 void dilate1d(
     const T* data_in, S* data_out, size_t size, size_t radius

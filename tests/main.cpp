@@ -358,6 +358,57 @@ int main() {
         assert_equal(output, expected_output, 2, 3);
     }
     cout << "Testing transpose2d done." << endl << endl;
-
+    cout << "Begin testing boxBlur2d..." << endl;
+    {
+        const auto input = Vec{
+            1,1,1,
+            1,1,1,
+            1,1,1,
+        };
+        const auto expected_output = Vec{
+            0,0,0,
+            0,1,0,
+            0,0,0,
+        };
+        auto output = zeros(input);
+        auto buffer = zeros(input);
+        boxBlur2d(input.data(), buffer.data(), output.data(), 3, 3, 1, 0.0);
+        assert_equal(output, expected_output, 3, 3);
+    }
+    {
+        const auto input = Vec{
+            1,1,1,
+            1,10,1,
+            1,1,1,
+        };
+        const auto expected_output = Vec{
+            0,0,0,
+            0,2,0,
+            0,0,0,
+        };
+        auto output = zeros(input);
+        auto buffer = zeros(input);
+        boxBlur2d(input.data(), buffer.data(), output.data(), 3, 3, 1, 0.0);
+        assert_equal(output, expected_output, 3, 3);
+    }
+    {
+        const auto input = Vec{
+            1,0,0,1,
+            0,2,2,0,
+            0,2,2,0,
+            1,0,0,1,
+        };
+        const auto expected_output = Vec{
+            0,0,0,0,
+            0,1,1,0,
+            0,1,1,0,
+            0,0,0,0,
+        };
+        auto output = zeros(input);
+        auto buffer = zeros(input);
+        boxBlur2d(input.data(), buffer.data(), output.data(), 4, 4, 1, 0.0);
+        assert_equal(output, expected_output, 4, 4);
+    }
+    cout << "Testing boxBlur2d done." << endl << endl;
     return 0;
 }
