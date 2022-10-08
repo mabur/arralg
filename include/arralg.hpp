@@ -9,8 +9,18 @@
 // * Morphological operations
 // * Derivative filter
 // * Sliding window min/max
+// * Transpose
 
 #include "distance_transform.hpp"
+
+template<typename T>
+void transpose2d(const T* data_in, T* data_out, size_t width_in, size_t height_in) {
+    for (size_t y = 0; y < height_in; ++y) {
+        for (size_t x = 0; x < width_in; ++x) {
+            data_out[x * height_in + y] = data_in[y * width_in + x];
+        }
+    }
+}
 
 size_t getDiameter(size_t radius) {
     return 2 * radius + 1;

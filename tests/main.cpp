@@ -206,7 +206,7 @@ int main() {
         assert_equal(output, Vec{1, 1, 1, 1, 1, 0, 1, 1, 1, 1});
     }
     cout << "Testing dilate1d done." << endl << endl;
-    cout << "Testing erode1d done." << endl;
+    cout << "Begin testing erode1d..." << endl;
     {
         const auto input = Vec{0, 0, 0};
         auto output = zeros(input);
@@ -244,7 +244,7 @@ int main() {
         assert_equal(output, Vec{0,0,0,0,1,0,0,0,0,0,0,0,0,0,1});
     }
     cout << "Testing erode1d done." << endl << endl;
-    cout << "Testing distanceTransform2d done." << endl << endl;
+    cout << "Begin testing distanceTransform2d..." << endl;
     {
         const auto input = Vec{
             0,0,0,
@@ -336,5 +336,22 @@ int main() {
         assert_equal(output, expected_output, 4, 3);
     }
     cout << "Testing distanceTransform2d done." << endl << endl;
+    cout << "Begin testing transpose2d..." << endl;
+    {
+        const auto input = Vec{
+            1,1,1,
+            0,1,0,
+        };
+        const auto expected_output = Vec{
+            1,0,
+            1,1,
+            1,0,
+        };
+        auto output = zeros(input);
+        transpose2d(input.data(), output.data(), 3, 2);
+        assert_equal(output, expected_output, 2, 3);
+    }
+    cout << "Testing transpose2d done." << endl << endl;
+
     return 0;
 }
