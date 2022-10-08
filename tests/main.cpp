@@ -135,6 +135,12 @@ int main() {
         boxBlur1d(input.data(), output.data(), input.size(), 1, 0.0);
         assert_equal(output, Vec{0.0, 2.0, 3.0, 4.0, 0.0});
     }
+    {
+        const auto input = Vec{2.0, 2.0, 5.0, 2.0, 2.0};
+        auto output = zeros(input);
+        boxBlur1d(input.data(), output.data(), input.size(), 1, 0.0);
+        assert_equal(output, Vec{0.0, 3.0, 3.0, 3.0, 0.0});
+    }
     cout << "Testing boxBlur1d done." << endl << endl;
     cout << "Begin testing distanceTransform1d..." << endl;
     {
